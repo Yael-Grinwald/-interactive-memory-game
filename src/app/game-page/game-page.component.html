@@ -1,0 +1,22 @@
+<div class="content">
+    <h1>Hi {{currentUser.name}}!</h1>
+    <h2>Score: {{score}}</h2>
+    <div id="table" style="margin: auto; width:50%;">
+        <table style="margin: auto;">
+
+            <tr *ngFor="let ii of counter(2); index as x">
+                <td *ngFor="let ii of counter(3) ;index as y;">
+                    <div class="example-button-container">
+                        <button style="background-color: white;" (click)="check($event)" class="btn" attr.id="{{3*x+y}}"
+                            mat-fab aria-label="Example icon button with a home icon">
+                        </button>
+
+                    </div>
+
+                </td>
+
+            </tr>
+        </table>
+    </div>
+
+</div>
