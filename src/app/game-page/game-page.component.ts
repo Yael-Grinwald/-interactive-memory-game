@@ -14,7 +14,6 @@ export class GamePageComponent implements OnInit {
   score: number = 0;
   currentUser: User;
 
-  @ViewChild('btn') el: ElementRef;
 
   constructor(private service: GameServiceService, private elementRef: ElementRef) {
     this.currentUser = this.service.currentUser;
@@ -39,59 +38,100 @@ export class GamePageComponent implements OnInit {
   ]
   btns: any;
   ngAfterViewInit() {
-
+    debugger
     this.btns = document.querySelectorAll<HTMLElement>('.btn');
     this.printCircles()
   }
 
   btnNumber = [0, 1, 2, 3, 4, 5];
-  circlesPrinting: number = 0;//count printing circles
+  circlesPrinting: number = 0;
   showBtnsArray: HTMLElement[] = [];
   btnPrintClr: any[] = [];
 
   printCircles() {
     //random circle
-    var random = Math.floor(Math.random() * this.btnNumber.length - 1);
-    this.btnNumber.slice(random, 1);
+    if(this.btnNumber.length!=1)
+    {
+          var random = Math.floor(Math.random() * this.btnNumber.length - 1);
+    }
+    else{
+      random=0;
+    }
     // add to the show circles array
     this.showBtnsArray.push(this.btns[this.btnNumber[random]]);
-    debugger
-let tableBorder=document.getElementById("table");
+   let d= this.btnNumber.splice(random, 1);
+
+    let tableBorder = document.getElementById("table");
     //print-hide circles
-    //applay green border 
+    //applay border 
     tableBorder.style.borderStyle = 'solid';
     tableBorder.style.borderColor = '#e29a2a';
-    this.showBtnsArray.forEach((el) => {
-      setTimeout(() => {
-        el.style.backgroundColor = this.colors[el.id];
-      }, 1000);
-    });
-
     debugger
 
-    setTimeout(() => {
-      this.showBtnsArray.forEach(element => {
-        element.style.backgroundColor = 'white';
-      });
+    this.showBtnsArray.forEach((el, i) => {
+      setTimeout(() => {
+        el.style.backgroundColor = this.colors[el.id];
+        setTimeout(() => {
+          el.style.backgroundColor = 'white';
+        }, 500);
+
+      }, i * 1000);
       tableBorder.style.borderColor = 'transparent';
 
-    }, 4000);
+    });
 
 
   }
 
+  wait(ms) {
+    var start = Date.now(),
+      now = start;
+    while (now - start < ms) {
+      now = Date.now();
+    }
+  }
 
+  check(btnId: number) {
+    debugger
+    console.log(this.showBtnsArray[this.circlesPrinting]);
 
+    //wrong press
+    if (+this.showBtnsArray[this.circlesPrinting].id != +btnId) {
+      alert("wrong!");
+    }
+    else {
+      this.score += 100;
+      //finish current procces
+      if (this.circlesPrinting == this.showBtnsArray.length-1) {
+        this.circlesPrinting = 0;
+        this.printCircles();
+        return;
+      }
+      else {
+        //finish game
+        if (this.circlesPrinting == 5) {
+          alert("WIN!!");
+        }//continue
+        else {
+          this.circlesPrinting++;
+        }
 
+      }
 
-  check(btnValue: any) {
-    // btnValue.srcElement.id
-    // debugger
-    // if(this.length<7)
-    // {this.gameProcess();
+    }
 
   }
 
+
+  playAgain() {
+    this.circlesPrinting = 0;
+    this.btnNumber = [0, 1, 2, 3, 4, 5];
+    this.showBtnsArray = [];
+    this.showBtnsArray.forEach(element => {
+      element.style.backgroundColor = 'white';
+    });
+    this.printCircles();
+  }
   counter(i: number) {
     return new Array(i);
   }

@@ -7,8 +7,10 @@
             <tr *ngFor="let ii of counter(2); index as x">
                 <td *ngFor="let ii of counter(3) ;index as y;">
                     <div class="example-button-container">
-                        <button style="background-color: white;" (click)="check($event)" class="btn" attr.id="{{3*x+y}}"
-                            mat-fab aria-label="Example icon button with a home icon">
+                        <button style="background-color: white;" (click)="check($event.target.id);"  class="btn"
+                            attr.id="{{3*x+y}}" mat-fab aria-label="Example icon button with a home icon">
+                            <i style="color: aqua;" class="bi bi-x-lg"></i>
+
                         </button>
 
                     </div>
@@ -18,5 +20,6 @@
             </tr>
         </table>
     </div>
+    <button mat-raised-button color="primary" (click)="playAgain()">play again</button>
 
 </div>
